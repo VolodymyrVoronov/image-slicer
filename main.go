@@ -15,9 +15,10 @@ const output = "./dist"
 
 func init() {
 	utils.ClearDir(output)
-}
 
-var progressChannels []chan int
+	fmt.Println("Output directory was cleared!")
+	fmt.Println()
+}
 
 func main() {
 	rows := utils.GetUserInput("Enter amount of horizontal rows: ")
@@ -40,7 +41,6 @@ func main() {
 
 	doneChannels := make([]chan string, len(inputDir))
 	errorChannels := make([]chan error, len(inputDir))
-	progressChannels = append(progressChannels, make(chan int))
 
 	for i, image := range inputDir {
 		doneChannels[i] = make(chan string, 1)
@@ -51,7 +51,7 @@ func main() {
 			imageName := image.Name()
 			pathToImage := fmt.Sprintf("%s/%s", input, imageName)
 
-			go utils.SliceImage(pathToImage, output, rows, cols, doneChannels[i], errorChannels[i], progressChannels[i])
+			go utils.SliceImage(pathToImage, output, rows, cols, doneChannels[i], errorChannels[i])
 		}
 	}
 
@@ -68,11 +68,7 @@ func main() {
 				fmt.Println("Image" + inputDir[i].Name() + " was processed with error!")
 				fmt.Println(err)
 			}
-
-		case progress := <-progressChannels[i]:
-			fmt.Printf("Progress for image %s: %d%%\n", inputDir[i].Name(), progress)
 		}
-
 	}
 
 	duration := time.Since(start)
