@@ -78,6 +78,11 @@ func SliceImage(fileOriginal string, outPutDir string, rows int, cols int, doneC
 		return
 	}
 
+	if imageFormat != "png" && imageFormat != "jpg" && imageFormat != "jpeg" {
+		errorChannel <- fmt.Errorf(fmt.Sprintln("Format has to be png or jpg."))
+		return
+	}
+
 	imageOriginal, _, err := image.Decode(file)
 	if err != nil {
 		fmt.Println("Error while decoding image: ", err)
