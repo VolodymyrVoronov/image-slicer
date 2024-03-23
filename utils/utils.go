@@ -49,7 +49,7 @@ func GetImageFormat(file string) (string, error) {
 	extension := filepath.Ext(file)
 
 	if extension != ".png" && extension != ".jpg" && extension != ".jpeg" {
-		return "", fmt.Errorf(fmt.Sprintln("Error: format has to be png, jpg or jpeg."))
+		return "", fmt.Errorf(fmt.Sprintln("Format has to be png, jpg or jpeg."))
 	}
 
 	format := strings.ToLower(extension[1:])
@@ -75,7 +75,7 @@ func SliceImage(fileOriginal string, outPutDir string, rows int, cols int, doneC
 
 	imageFormat, err := GetImageFormat(fileOriginal)
 	if err != nil {
-		fmt.Println("Error while getting image format: ", err)
+		fmt.Println("Error while getting image format:", err)
 		errorChannel <- err
 		return
 	}
