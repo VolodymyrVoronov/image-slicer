@@ -62,7 +62,7 @@ type Coords struct {
 	Y int `json:"y"`
 }
 
-func SliceImage(fileOriginal string, outPutDir string, rows int, cols int, doneChannel chan bool, errorChannel chan error) {
+func SliceImage(fileOriginal string, outPutDir string, rows int, cols int, doneChannel chan string, errorChannel chan error) {
 	file, err := os.Open(fileOriginal)
 	if err != nil {
 		fmt.Println("Error while opening image: ", err)
@@ -141,11 +141,9 @@ func SliceImage(fileOriginal string, outPutDir string, rows int, cols int, doneC
 	}
 	output += "]"
 
-	fmt.Printf("%s: %s \n", GetImageName(fileOriginal), output)
-
 	WriteDataToFileAsJSON(slicedImageCoords, filepath.Join(outPutDir, fmt.Sprintf("%s.json", GetImageName(fileOriginal))))
 
-	doneChannel <- true
+	doneChannel <- fmt.Sprintf("%s: %s \n", GetImageName(fileOriginal), output)
 }
 
 func SaveInFormat(w *os.File, m image.Image, format string) {

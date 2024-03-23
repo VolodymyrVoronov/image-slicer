@@ -36,11 +36,11 @@ func main() {
 		return
 	}
 
-	doneChannels := make([]chan bool, len(inputDir))
+	doneChannels := make([]chan string, len(inputDir))
 	errorChannels := make([]chan error, len(inputDir))
 
 	for i, image := range inputDir {
-		doneChannels[i] = make(chan bool, 1)
+		doneChannels[i] = make(chan string, 1)
 		errorChannels[i] = make(chan error, 1)
 
 		if !image.IsDir() {
@@ -54,8 +54,9 @@ func main() {
 	for i := range inputDir {
 		select {
 		case done := <-doneChannels[i]:
-			if done {
+			if done != "" {
 				fmt.Println("File " + inputDir[i].Name() + " was processed successfully!")
+				fmt.Println(done)
 			}
 
 		case err := <-errorChannels[i]:
