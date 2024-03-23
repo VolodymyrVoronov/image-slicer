@@ -180,7 +180,18 @@ func WriteDataToFileAsJSON(data interface{}, fileDir string) error {
 }
 
 func ClearDir(dirPath string) error {
-	err := filepath.Walk(dirPath, func(path string, info os.FileInfo, err error) error {
+	dir, err := os.ReadDir(dirPath)
+	if err != nil {
+		return err
+	}
+
+	if len(dir) == 0 {
+		fmt.Println("Output directory is empty! No need to clear it.")
+		fmt.Println()
+		return nil
+	}
+
+	err = filepath.Walk(dirPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
@@ -198,6 +209,9 @@ func ClearDir(dirPath string) error {
 	if err != nil {
 		fmt.Println(err)
 	}
+
+	fmt.Println("Output directory was cleared!")
+	fmt.Println()
 
 	return nil
 }

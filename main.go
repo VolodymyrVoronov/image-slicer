@@ -15,9 +15,6 @@ const output = "./dist"
 
 func init() {
 	utils.ClearDir(output)
-
-	fmt.Println("Output directory was cleared!")
-	fmt.Println()
 }
 
 func main() {
