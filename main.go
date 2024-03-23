@@ -55,7 +55,7 @@ func main() {
 		select {
 		case done := <-doneChannels[i]:
 			if done != "" {
-				fmt.Println("File " + inputDir[i].Name() + " was processed successfully!")
+				fmt.Println("Image " + inputDir[i].Name() + " was processed successfully!")
 				fmt.Println(done)
 			}
 

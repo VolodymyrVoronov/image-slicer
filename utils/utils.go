@@ -14,6 +14,11 @@ import (
 	"image/png"
 )
 
+type Coords struct {
+	X int `json:"x"`
+	Y int `json:"y"`
+}
+
 func GetUserInput(message string) int {
 	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Print(message)
@@ -55,11 +60,6 @@ func GetImageName(file string) string {
 	name = strings.TrimSuffix(name, filepath.Ext(file))
 
 	return name
-}
-
-type Coords struct {
-	X int `json:"x"`
-	Y int `json:"y"`
 }
 
 func SliceImage(fileOriginal string, outPutDir string, rows int, cols int, doneChannel chan string, errorChannel chan error) {
