@@ -62,7 +62,7 @@ func main() {
 
 		case err := <-errorChannels[i]:
 			if err != nil {
-				fmt.Println("Image" + inputDir[i].Name() + " was processed with error!")
+				fmt.Println("Image " + inputDir[i].Name() + " was processed with error!")
 				fmt.Println(err)
 			}
 		}
