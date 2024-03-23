@@ -46,8 +46,9 @@ func main() {
 		if !image.IsDir() {
 
 			imageName := image.Name()
+			pathToImage := fmt.Sprintf("%s/%s", input, imageName)
 
-			go utils.SliceImage(fmt.Sprintf("%s/%s", input, imageName), output, rows, cols, doneChannels[i], errorChannels[i])
+			go utils.SliceImage(pathToImage, output, rows, cols, doneChannels[i], errorChannels[i])
 		}
 	}
 
