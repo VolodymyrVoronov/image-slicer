@@ -37,6 +37,7 @@ func GetUserInput(message string) int {
 
 	if inputInt < 1 {
 		fmt.Println("Error: Amount of horizontal slices must be greater than 1")
+		fmt.Println("Default value: 1")
 
 		return 1
 	}
