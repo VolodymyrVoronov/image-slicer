@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"image-slicer/utils"
+	"io/fs"
 	"os"
 	"time"
 
@@ -24,6 +25,8 @@ func main() {
 	rows := utils.GetUserInput("Enter amount of horizontal rows: ")
 	cols := utils.GetUserInput("Enter amount of vertical columns: ")
 
+	progressChannel := make(chan int)
+
 	fmt.Println()
 
 	start := time.Now()
@@ -42,6 +45,25 @@ func main() {
 	doneChannels := make([]chan string, len(inputDir))
 	errorChannels := make([]chan error, len(inputDir))
 
+	go func() {
+		totalProgress := 0
+		totalImages := len(inputDir)
+
+		for progress := range progressChannel {
+			totalProgress += progress
+			overallProgress := totalProgress * 100 / (totalImages * 100)
+
+			fmt.Printf("Overall Progress: %d%%\n", overallProgress)
+
+			if overallProgress >= 100 {
+				close(progressChannel)
+			}
+		}
+	}()
+
+	progress := calculateProgress(doneChannels, inputDir)
+	progressChannel <- progress
+
 	for i, image := range inputDir {
 		doneChannels[i] = make(chan string, 1)
 		errorChannels[i] = make(chan error, 1)
@@ -51,7 +73,10 @@ func main() {
 			imageName := image.Name()
 			pathToImage := fmt.Sprintf("%s/%s", input, imageName)
 
-			go utils.SliceImage(pathToImage, output, rows, cols, doneChannels[i], errorChannels[i])
+			func(i int) {
+				utils.SliceImage(pathToImage, output, rows, cols, doneChannels[i], errorChannels[i], progressChannel)
+			}(i)
+
 		}
 	}
 
@@ -86,4 +111,20 @@ func main() {
 	fmt.Printf("Total processing time: %.2f seconds", duration.Seconds())
 
 	time.Sleep(time.Second)
+}
+
+func calculateProgress(doneChannels []chan string, inputDir []fs.DirEntry) int {
+	processedImages := 0
+	for _, doneChannel := range doneChannels {
+		select {
+		case <-doneChannel:
+			processedImages++
+		default:
+		}
+	}
+
+	totalImages := len(inputDir)
+	progress := processedImages * 100 / totalImages
+
+	return progress
 }

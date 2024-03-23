@@ -62,7 +62,7 @@ func GetImageName(file string) string {
 	return name
 }
 
-func SliceImage(fileOriginal string, outPutDir string, rows int, cols int, doneChannel chan string, errorChannel chan error) {
+func SliceImage(fileOriginal string, outPutDir string, rows int, cols int, doneChannel chan string, errorChannel chan error, progressChannel chan int) {
 	file, err := os.Open(fileOriginal)
 	if err != nil {
 		fmt.Println("Error while opening image: ", err)
@@ -104,6 +104,8 @@ func SliceImage(fileOriginal string, outPutDir string, rows int, cols int, doneC
 			y0 := i * sliceHeight
 			x1 := (j + 1) * sliceWidth
 			y1 := (i + 1) * sliceHeight
+
+			progressChannel <- 100 / (rows * cols)
 
 			slice := imageOriginal.(interface {
 				SubImage(r image.Rectangle) image.Image
