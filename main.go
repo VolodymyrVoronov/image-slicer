@@ -18,8 +18,8 @@ func init() {
 }
 
 func main() {
-	rows := utils.GetUserInput("Enter amount of horizontal slices: ")
-	cols := utils.GetUserInput("Enter amount of vertical slices: ")
+	rows := utils.GetUserInput("Enter amount of horizontal rows: ")
+	cols := utils.GetUserInput("Enter amount of vertical columns: ")
 
 	fmt.Println()
 
