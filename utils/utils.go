@@ -75,7 +75,6 @@ func SliceImage(fileOriginal string, outPutDir string, rows int, cols int, doneC
 
 	imageFormat, err := GetImageFormat(fileOriginal)
 	if err != nil {
-		fmt.Println("Error while getting image format:", err)
 		errorChannel <- err
 		return
 	}
