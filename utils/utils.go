@@ -48,12 +48,8 @@ func GetUserInput(message string) int {
 func GetImageFormat(file string) (string, error) {
 	extension := filepath.Ext(file)
 
-	if extension == "" {
-		return "", fmt.Errorf(fmt.Sprintln("File has to have an extension."))
-	}
-
-	if extension == "" {
-		return "", fmt.Errorf(fmt.Sprintln("Format has to be png, jpg or jpeg."))
+	if extension != ".png" && extension != ".jpg" && extension != ".jpeg" {
+		return "", fmt.Errorf(fmt.Sprintln("Error: format has to be png, jpg or jpeg."))
 	}
 
 	format := strings.ToLower(extension[1:])
