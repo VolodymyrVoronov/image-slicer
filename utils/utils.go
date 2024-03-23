@@ -118,7 +118,7 @@ func SliceImage(fileOriginal string, outPutDir string, rows int, cols int, doneC
 				return
 			}
 
-			fileName := fmt.Sprintf("%s-%d%d.%s", GetImageName(fileOriginal), i, j+1, formatOfFile)
+			fileName := fmt.Sprintf("%s-%d%d.%s", GetImageName(fileOriginal), i+1, j+1, formatOfFile)
 
 			slicedImageFile, err := os.Create(filepath.Join(outPutDir, fileName))
 			if err != nil {
