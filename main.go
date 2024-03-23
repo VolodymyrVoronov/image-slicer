@@ -27,7 +27,7 @@ func main() {
 
 	inputDir, err := os.ReadDir(input)
 	if err != nil {
-		fmt.Println("Error reading input directory:", err)
+		fmt.Println("Error reading input directory: ", err)
 		return
 	}
 
