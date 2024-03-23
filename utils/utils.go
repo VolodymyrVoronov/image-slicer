@@ -62,10 +62,11 @@ type Coords struct {
 	Y int `json:"y"`
 }
 
-func SliceImage(fileOriginal string, outPutDir string, rows int, cols int) {
+func SliceImage(fileOriginal string, outPutDir string, rows int, cols int, doneChannel chan bool, errorChannel chan error) {
 	file, err := os.Open(fileOriginal)
 	if err != nil {
 		fmt.Println("Error while opening image: ", err)
+		errorChannel <- err
 		return
 	}
 	defer file.Close()
@@ -73,12 +74,14 @@ func SliceImage(fileOriginal string, outPutDir string, rows int, cols int) {
 	imageFormat, err := GetImageFormat(fileOriginal)
 	if err != nil {
 		fmt.Println("Error while getting image format: ", err)
+		errorChannel <- err
 		return
 	}
 
 	imageOriginal, _, err := image.Decode(file)
 	if err != nil {
 		fmt.Println("Error while decoding image: ", err)
+		errorChannel <- err
 		return
 	}
 
@@ -106,6 +109,7 @@ func SliceImage(fileOriginal string, outPutDir string, rows int, cols int) {
 			formatOfFile, err := GetImageFormat(fileOriginal)
 			if err != nil {
 				fmt.Println("Error while getting image format: ", err)
+				errorChannel <- err
 				return
 			}
 
@@ -114,6 +118,7 @@ func SliceImage(fileOriginal string, outPutDir string, rows int, cols int) {
 			slicedImageFile, err := os.Create(filepath.Join(outPutDir, fileName))
 			if err != nil {
 				fmt.Println("Error while creating image: ", err)
+				errorChannel <- err
 				return
 			}
 			defer slicedImageFile.Close()
@@ -139,6 +144,8 @@ func SliceImage(fileOriginal string, outPutDir string, rows int, cols int) {
 	fmt.Printf("%s: %s \n", GetImageName(fileOriginal), output)
 
 	WriteDataToFileAsJSON(slicedImageCoords, filepath.Join(outPutDir, fmt.Sprintf("%s.json", GetImageName(fileOriginal))))
+
+	doneChannel <- true
 }
 
 func SaveInFormat(w *os.File, m image.Image, format string) {

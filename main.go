@@ -36,12 +36,33 @@ func main() {
 		return
 	}
 
-	for _, image := range inputDir {
+	doneChannels := make([]chan bool, len(inputDir))
+	errorChannels := make([]chan error, len(inputDir))
+
+	for i, image := range inputDir {
+		doneChannels[i] = make(chan bool, 1)
+		errorChannels[i] = make(chan error, 1)
+
 		if !image.IsDir() {
 
 			imageName := image.Name()
 
-			utils.SliceImage(fmt.Sprintf("%s/%s", input, imageName), output, rows, cols)
+			go utils.SliceImage(fmt.Sprintf("%s/%s", input, imageName), output, rows, cols, doneChannels[i], errorChannels[i])
+		}
+	}
+
+	for i := range inputDir {
+		select {
+		case done := <-doneChannels[i]:
+			if done {
+				fmt.Println("File " + inputDir[i].Name() + " was processed successfully!")
+			}
+
+		case err := <-errorChannels[i]:
+			if err != nil {
+				fmt.Println("Image" + inputDir[i].Name() + " was processed with error!")
+				fmt.Println(err)
+			}
 		}
 	}
 
