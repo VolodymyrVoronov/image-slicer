@@ -49,6 +49,10 @@ func GetImageFormat(file string) (string, error) {
 	extension := filepath.Ext(file)
 
 	if extension == "" {
+		return "", fmt.Errorf(fmt.Sprintln("File has to have an extension."))
+	}
+
+	if extension == "" {
 		return "", fmt.Errorf(fmt.Sprintln("Format has to be png, jpg or jpeg."))
 	}
 
