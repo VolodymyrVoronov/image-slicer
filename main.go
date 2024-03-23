@@ -32,7 +32,7 @@ func main() {
 	}
 
 	if len(inputDir) == 0 {
-		fmt.Println("Source directory is empty")
+		fmt.Println("Input directory is empty")
 		return
 	}
 
