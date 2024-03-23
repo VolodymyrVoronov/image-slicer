@@ -143,7 +143,7 @@ func SliceImage(fileOriginal string, outPutDir string, rows int, cols int, doneC
 
 	WriteDataToFileAsJSON(slicedImageCoords, filepath.Join(outPutDir, fmt.Sprintf("%s.json", GetImageName(fileOriginal))))
 
-	doneChannel <- fmt.Sprintf("%s: %s \n", GetImageName(fileOriginal), output)
+	doneChannel <- fmt.Sprintf("Coords of %s: %s \n", GetImageName(fileOriginal), output)
 }
 
 func SaveInFormat(w *os.File, m image.Image, format string) {
