@@ -47,7 +47,7 @@ func GetImageFormat(file string) (string, error) {
 	extension := filepath.Ext(file)
 
 	if extension == "" {
-		return "", fmt.Errorf(fmt.Sprintln("Format has to be png or jpg."))
+		return "", fmt.Errorf(fmt.Sprintln("Format has to be png or jpg/jpeg."))
 	}
 
 	format := strings.ToLower(extension[1:])
@@ -137,13 +137,17 @@ func SliceImage(fileOriginal string, outPutDir string, rows int, cols int, doneC
 	}
 
 	var output string
+
 	output += "["
+
 	for i, coord := range slicedImageCoords {
 		output += fmt.Sprintf("{x: %d, y: %d}", coord.X, coord.Y)
+
 		if i < len(slicedImageCoords)-1 {
 			output += ", "
 		}
 	}
+
 	output += "]"
 
 	WriteDataToFileAsJSON(slicedImageCoords, filepath.Join(outPutDir, fmt.Sprintf("%s.json", GetImageName(fileOriginal))))
@@ -155,6 +159,7 @@ func SaveInFormat(w *os.File, m image.Image, format string) {
 	switch format {
 	case "png":
 		png.Encode(w, m)
+
 	case "jpeg":
 		jpeg.Encode(w, m, &jpeg.Options{Quality: 100})
 	}
