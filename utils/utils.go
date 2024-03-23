@@ -30,6 +30,7 @@ func GetUserInput(message string) int {
 
 	if err != nil {
 		fmt.Println("Error: ", err)
+		fmt.Println("Default value: 1")
 
 		return 1
 	}
