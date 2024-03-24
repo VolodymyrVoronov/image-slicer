@@ -107,14 +107,7 @@ func SliceImage(fileOriginal string, outPutDir string, rows int, cols int, doneC
 
 			slicedImageCoords = append(slicedImageCoords, Coords{X: x0, Y: y0})
 
-			formatOfFile, err := GetImageFormat(fileOriginal)
-			if err != nil {
-				fmt.Println("Error while getting image format: ", err)
-				errorChannel <- err
-				return
-			}
-
-			fileName := fmt.Sprintf("%s-%d%d.%s", GetImageName(fileOriginal), i+1, j+1, formatOfFile)
+			fileName := fmt.Sprintf("%s-%d%d.%s", GetImageName(fileOriginal), i+1, j+1, imageFormat)
 
 			slicedImageFile, err := os.Create(filepath.Join(outPutDir, fileName))
 			if err != nil {
