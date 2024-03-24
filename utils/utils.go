@@ -157,13 +157,13 @@ func SaveInFormat(w *os.File, m image.Image, format string) {
 func WriteDataToFileAsJSON(data interface{}, fileDir string) error {
 	j, err := json.Marshal(data)
 	if err != nil {
-		fmt.Println("Error: ", err)
+		fmt.Println("Error while marshalling data: ", err)
 		return err
 	}
 
 	err = os.WriteFile(fileDir, j, 0644)
 	if err != nil {
-		fmt.Println("Error: ", err)
+		fmt.Println("Error while writing data: ", err)
 		return err
 	}
 
@@ -173,7 +173,7 @@ func WriteDataToFileAsJSON(data interface{}, fileDir string) error {
 func ClearDir(dirPath string) error {
 	dir, err := os.ReadDir(dirPath)
 	if err != nil {
-		fmt.Println("Error: ", err)
+		fmt.Println("Error while reading dir: ", err)
 		return err
 	}
 
@@ -185,14 +185,14 @@ func ClearDir(dirPath string) error {
 
 	err = filepath.Walk(dirPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
-			fmt.Println("Error: ", err)
+			fmt.Println("Error while walking dir: ", err)
 			return err
 		}
 
 		if !info.IsDir() {
 			err = os.Remove(path)
 			if err != nil {
-				fmt.Println("Error: ", err)
+				fmt.Println("Error while deleting file: ", err)
 				return err
 			}
 		}
@@ -201,7 +201,7 @@ func ClearDir(dirPath string) error {
 	})
 
 	if err != nil {
-		fmt.Println(err)
+		return err
 	}
 
 	fmt.Println("Output directory was cleared!")
