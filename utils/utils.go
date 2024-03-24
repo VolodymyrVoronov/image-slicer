@@ -178,6 +178,7 @@ func ClearDir(dirPath string) error {
 	}
 
 	if len(dir) == 0 {
+		fmt.Println()
 		fmt.Println("Output directory is empty! No need to clear it.")
 		fmt.Println()
 		return nil
@@ -204,6 +205,7 @@ func ClearDir(dirPath string) error {
 		return err
 	}
 
+	fmt.Println()
 	fmt.Println("Output directory was cleared!")
 	fmt.Println()
 

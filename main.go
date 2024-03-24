@@ -83,6 +83,7 @@ func main() {
 	fmt.Println()
 	fmt.Println(consoleMessage)
 	fmt.Printf("Total processing time: %.2f seconds", duration.Seconds())
+	fmt.Println()
 
 	time.Sleep(time.Second)
 }
