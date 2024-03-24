@@ -8,6 +8,8 @@ import (
 
 	_ "image/jpeg"
 	_ "image/png"
+
+	"github.com/gookit/color"
 )
 
 const input = "./src"
@@ -56,14 +58,14 @@ func main() {
 		select {
 		case done := <-doneChannels[i]:
 			if done != "" {
-				fmt.Println("Image " + inputDir[i].Name() + " was processed successfully!")
-				fmt.Println(done)
+				color.Green.Println("Image " + inputDir[i].Name() + " was processed successfully!")
+				color.Cyan.Println(done)
 			}
 
 		case err := <-errorChannels[i]:
 			if err != nil {
-				fmt.Println("Image " + inputDir[i].Name() + " was processed with error!")
-				fmt.Println(err)
+				color.Red.Println("Image " + inputDir[i].Name() + " was processed with error!")
+				color.Red.Println(err)
 			}
 		}
 	}
