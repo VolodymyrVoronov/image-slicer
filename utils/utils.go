@@ -157,11 +157,13 @@ func SaveInFormat(w *os.File, m image.Image, format string) {
 func WriteDataToFileAsJSON(data interface{}, fileDir string) error {
 	j, err := json.Marshal(data)
 	if err != nil {
+		fmt.Println("Error: ", err)
 		return err
 	}
 
 	err = os.WriteFile(fileDir, j, 0644)
 	if err != nil {
+		fmt.Println("Error: ", err)
 		return err
 	}
 
@@ -171,6 +173,7 @@ func WriteDataToFileAsJSON(data interface{}, fileDir string) error {
 func ClearDir(dirPath string) error {
 	dir, err := os.ReadDir(dirPath)
 	if err != nil {
+		fmt.Println("Error: ", err)
 		return err
 	}
 
@@ -182,12 +185,14 @@ func ClearDir(dirPath string) error {
 
 	err = filepath.Walk(dirPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
+			fmt.Println("Error: ", err)
 			return err
 		}
 
 		if !info.IsDir() {
 			err = os.Remove(path)
 			if err != nil {
+				fmt.Println("Error: ", err)
 				return err
 			}
 		}
