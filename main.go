@@ -79,7 +79,10 @@ func main() {
 
 	duration := time.Since(start)
 
-	consoleMessage := fmt.Sprintf("Sliced successfully: %d, Sliced with error: %d", countSuccessful, countFailed)
+	percentOfSuccessful := (float64(countSuccessful) / float64(len(inputDir))) * 100
+	percentOfFailed := (float64(countFailed) / float64(len(inputDir))) * 100
+
+	consoleMessage := fmt.Sprintf("Sliced successfully: %d (%.2f%%), Sliced with error: %d (%.2f%%)", countSuccessful, percentOfSuccessful, countFailed, percentOfFailed)
 
 	fmt.Println()
 	fmt.Println(consoleMessage)
