@@ -54,31 +54,32 @@ func main() {
 		}
 	}
 
+	var countSuccessful int
+	var countFailed int
+
 	for i := range inputDir {
 		select {
 		case done := <-doneChannels[i]:
 			if done != "" {
 				color.Green.Println("Image " + inputDir[i].Name() + " was processed successfully!")
 				color.Cyan.Println(done)
+
+				countSuccessful++
 			}
 
 		case err := <-errorChannels[i]:
 			if err != nil {
 				color.Red.Println("Image " + inputDir[i].Name() + " was processed with error!")
 				color.Red.Println(err)
+
+				countFailed++
 			}
 		}
 	}
 
 	duration := time.Since(start)
 
-	var consoleMessage string
-
-	if len(inputDir) > 1 {
-		consoleMessage = "Your images have been successfully sliced!"
-	} else {
-		consoleMessage = "Your image has been successfully sliced!"
-	}
+	consoleMessage := fmt.Sprintf("Sliced successfully: %d, Sliced with error: %d", countSuccessful, countFailed)
 
 	fmt.Println()
 	fmt.Println(consoleMessage)
