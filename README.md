@@ -1,6 +1,6 @@
-- Create => **dist** for output
+- Folder **src** for input
 
-- Create => **src** for input
+- Folder **dist** for output
 
 - Command in terminal for running => **go run .**
 
