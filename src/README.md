@@ -1,0 +1,1 @@
+The folder for input (the image/s, which has/have to be sliced).
